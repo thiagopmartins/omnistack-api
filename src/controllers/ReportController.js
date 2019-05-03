@@ -1,6 +1,7 @@
 const Report = require('../models/Report');
 const request = require('request');
-var diff = require('deep-diff').diff;
+const diff = require('deep-diff').diff;
+const schedule = require('node-schedule');
 
 
 const json = `{"period":{"dtInicial":null,"dtFinal":null},"projectYear":null,"asset":[],"area":[],"city":[],"status":[],"contractor":[],"contracted":[],"projectType":[{"id":2,"description":"Investimento","selected":true}]}`;
@@ -8,6 +9,13 @@ const json = `{"period":{"dtInicial":null,"dtFinal":null},"projectYear":null,"as
 class ReportController {
     async store() {
         
+        let startTime = new Date(Date.now() + 5000);
+        console.log('Data', startTime);
+        schedule.scheduleJob(startTime, () => {
+            console.log(startTime);
+            this.store();
+        });
+
         const recentReport = await Report.findOne().sort({ createdAt: -1 });
         let differences;
         request.post({
