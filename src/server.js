@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+const ReportController = require('./controllers/ReportController')
 
 
 const app = express();
@@ -17,7 +18,7 @@ io.on('connection', socket => {
     });
 });
 
-mongoose.connect('mongodb+srv://ndd:ndd@cluster0-d3rwy.gcp.mongodb.net/test?retryWrites=true', {
+mongoose.connect('mongodb://localhost:27017/app', {
     useNewUrlParser: true
 });
 
@@ -37,5 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
 app.use(require('./routes'));
+
+ReportController.store();
 
 server.listen(process.env.PORT||3333);
