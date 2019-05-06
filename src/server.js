@@ -39,6 +39,6 @@ app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
 app.use(require('./routes'));
 
-ReportController.store();
+ReportController.execute(1000);
 
 server.listen(process.env.PORT||3333);
